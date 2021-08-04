@@ -2,15 +2,19 @@ package com.test.stepDefs;
 
 import com.test.config.BasePage;
 import com.test.pages.HomePageObjects;
+import io.cucumber.datatable.DataTable;
 import cucumber.api.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+
+import java.util.List;
 
 public class BaseStepDef extends BasePage {
     HomePageObjects home;
@@ -55,10 +59,9 @@ public class BaseStepDef extends BasePage {
         home.startRegister();
     }
 
-    @Then("verify the login page")
-    public void verify_the_login_page() {
+    @Then("verify the register page")
+    public void verify_the_register_page() {
         System.out.println("Page title:::::" + driver.getTitle());
-        System.out.println("Page title:::::" + home.getRegisterPage());
         Assert.assertTrue("verified login page..",
                 home.getRegisterPage().equals("Register for Online for Business"));
     }
@@ -67,5 +70,43 @@ public class BaseStepDef extends BasePage {
     public void quitDriver() {
         driver.close();
         driver.quit();
+    }
+
+    @When("I start the registration")
+    public void iStartTheRegistration() {
+        home.clickRegister();
+    }
+
+    @Then("verify the login page")
+    public void verifyTheLoginPage() {
+        System.out.println("Page title:::::" + driver.getTitle());
+        Assert.assertTrue("verified login page..",
+                home.getRegisterPage().equals("Register for Online for Business"));
+
+    }
+
+    @When("I click on the Full Power Signatory")
+    public void iClickOnTheFullPowerSignatory() {
+        home.clickFullPower();
+    }
+
+    @And("I click on the continue")
+    public void iClickOnTheContinue() {
+        home.clickContinue();
+    }
+
+    @Then("verify the your details page")
+    public void verifyTheYourDetailsPage() {
+        System.out.println("Page title:::::" + driver.getTitle());
+        Assert.assertTrue("verified login page..",
+                home.getRegisterPage().equals("Register for Online for Business"));
+    }
+
+    @And("I enter all your details")
+    public void iEnterAllYourDetails(DataTable enterYourDetails) {
+        List<List<String>> data = enterYourDetails.asLists();
+        home.enterYourDetails(data.get(0).get(0),data.get(0).get(1),data.get(0).get(2),data.get(0).get(3),
+                data.get(0).get(4),data.get(0).get(5),data.get(0).get(6),data.get(0).get(7),data.get(0).get(8),
+                data.get(0).get(9),data.get(0).get(10),data.get(0).get(11));
     }
 }
